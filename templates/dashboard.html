@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto mt-8 bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold text-gray-700 mb-4">User Dashboard</h2>
+
+    <form id="attendanceForm" action="{{ url_for('dashboard') }}" method="post">
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+        <div class="mb-4">
+            <label for="remarks" class="block text-gray-600">Remarks</label>
+            <input type="text" name="remarks" id="remarks" placeholder="Enter remarks (e.g., Sick, Permission)" class="w-full px-4 py-2 border rounded-lg">
+        </div>
+        <button type="button" onclick="getLocation()" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Mark Attendance</button>
+    </form>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function sendPosition(position) {
+            document.getElementById("latitude").value = position.coords.latitude;
+            document.getElementById("longitude").value = position.coords.longitude;
+            document.getElementById("attendanceForm").submit();
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+    </script>
+
+    <h3 class="mt-8 mb-4 text-lg font-semibold text-gray-700">Attendance History</h3>
+    <table class="w-full text-left border-collapse">
+        <!-- <thead>
+            <tr>
+                <th class="py-2 px-4 border-b-2 border-gray-200 bg-gray-100">Date & Time</th>
+                <th class="py-2 px-4 border-b-2 border-gray-200 bg-gray-100">Status</th>
+                <th class="py-2 px-4 border-b-2 border-gray-200 bg-gray-100">Location</th>
+                <th class="py-2 px-4 border-b-2 border-gray-200 bg-gray-100">Remarks</th>
+            </tr>
+        </thead> -->
+        <tbody>
+            {% for attendance in attendances %}
+                <p>Timestamp: {{ attendance.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <!-- <tr>
+                <td class="py-2 px-4 border-b">{{ attendance.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td class="py-2 px-4 border-b">{{ attendance.status }}</td>
+                <td class="py-2 px-4 border-b">{{ attendance.location }}</td>
+                <td class="py-2 px-4 border-b">{{ attendance.remarks }}</td>
+            </tr> -->
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

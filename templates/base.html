@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Aplikasi Absensi{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <nav class="bg-blue-600 p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-white font-bold text-lg">Aplikasi Absensi</a>
+            <div>
+                {% if current_user.is_authenticated %}
+                    <div class="bg-gray-200 p-1 rounded-lg flex items-center shadow-md mb-2">
+                        <span class="text-blue-600 font-bold text-lg mr-2">👋</span>
+                        <p class="text-gray-800 font-medium">Welcome, <span class="text-blue-600 font-semibold">{{ current_user.username }}</span>!</p>
+                    </div>
+                    {% if current_user.is_admin %}
+                        <a href="{{ url_for('admin_dashboard') }}" class="text-white mr-4">Admin Dashboard</a>
+                        <a href="{{ url_for('admin_students') }}" class="text-white mr-4">Lihat Siswa</a>
+                        <a href="{{ url_for('semester_recap') }}" class="text-white mr-4">rekap semester</a>
+                        {% else %}
+                        <a href="{{ url_for('dashboard') }}" class="text-white mr-4">User Dashboard</a>
+                        <a href="{{ url_for('history') }}" class="text-white mr-4">Riwayat</a>
+                        <a href="{{ url_for('profile') }}" class="text-white mr-4">Profile</a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}" class="text-white">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('user_login') }}" class="text-white mr-4">Login as User</a>
+                    <a href="{{ url_for('admin_login') }}" class="text-white mr-4">Login as Admin</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto p-6">
+        {% block content %}{% endblock %}
+    </div>
+    <footer class="bg-blue-600 text-white text-center p-4 mt-8">
+        <p>&copy; 2024 Attendance App. All rights reserved.</p>
+    </footer>
+</body>
+</html>

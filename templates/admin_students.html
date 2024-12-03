@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto mt-10 bg-white p-10 rounded-lg shadow-lg">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-700">Daftar Siswa</h2>
+        <a href="{{ url_for('admin_add_student') }}" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">
+            Tambah Siswa
+        </a>
+    </div>
+
+
+    <form method="GET" action="{{ url_for('admin_students') }}" class="flex items-center space-x-4 mb-6">
+        <div class="flex items-center space-x-2">
+            <label for="sort_by" class="text-gray-600">Urutkan:</label>
+            <select name="sort_by" class="border rounded py-1 px-2">
+                <option value="id">NISN</option>
+                <option value="nama">Nama</option>
+                <option value="username">Username</option>
+            </select>
+        </div>
+        <div class="flex items-center space-x-2">
+            <label for="class_id" class="text-gray-600">Kelas:</label>
+            <select name="class_id" class="border rounded py-1 px-2">
+                <option value="">Semua Kelas</option>
+                {% for class_ in classes %}
+                    <option value="{{ class_.id }}">{{ class_.nama_kelas }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white py-1 px-4 rounded hover:bg-blue-700">
+            Terapkan
+        </button>
+    </form>
+
+    <table class="w-full border-collapse border border-gray-300">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-300 py-2 px-4">ID</th>
+                <th class="border border-gray-300 py-2 px-4">Nama</th>
+                <th class="border border-gray-300 py-2 px-4">Username</th>
+                <th class="border border-gray-300 py-2 px-4">Kelas</th>
+                <th class="border border-gray-300 py-2 px-4">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td class="border border-gray-300 py-2 px-4 text-center">{{ student.id }}</td>
+                <td class="border border-gray-300 py-2 px-4">{{ student.nama }}</td>
+                <td class="border border-gray-300 py-2 px-4">{{ student.username }}</td>
+                <td class="border border-gray-300 py-2 px-4 text-center">{{ student.classes.nama_kelas }}</td>
+                <td class="border border-gray-300 py-2 px-4 text-center">
+                    <a href="{{ url_for('admin_edit_student', id=student.id) }}" class="text-blue-600 hover:underline">Edit</a>
+                    <form method="POST" action="{{ url_for('admin_delete_student', id=student.id) }}" style="display:inline;">
+                        <button type="submit" class="text-red-600 hover:underline">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
