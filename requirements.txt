@@ -1,0 +1,9 @@
+Flask==2.3.3
+Flask-SQLAlchemy==3.0.5
+Flask-Migrate==4.0.4
+Flask-Login==0.6.2
+geopy==2.3.0
+Werkzeug==2.3.7
+psycopg2==2.9.7  # jika menggunakan PostgreSQL sebagai database
+PyMySQL==1.1.0  # jika menggunakan MySQL sebagai database
+gunicorn==21.2.0  # jika Anda menjalankan di server produksi
