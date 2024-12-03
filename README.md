@@ -79,22 +79,7 @@ Sistem absensi ini menggunakan **Flask** sebagai backend, dengan fitur login unt
 - Di halaman **Students**, Anda dapat menghapus siswa.
 - Saat siswa dihapus, seluruh catatan absensi mereka juga akan dihapus dari sistem.
 
----
 
-## Tampilan
-
-Berikut adalah beberapa tangkapan layar dari aplikasi absensi ini:
-
-1. **Halaman Login Siswa**
-   ![Login Siswa](https://example.com/login_siswa.png)
-
-2. **Dashboard Siswa**
-   ![Dashboard Siswa](https://example.com/dashboard_siswa.png)
-
-3. **Admin Dashboard**
-   ![Admin Dashboard](https://example.com/admin_dashboard.png)
-
----
 
 ## Instalasi
 
